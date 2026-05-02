@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى ملاك</title>
+    <style>
+        body {
+            background-color: #000; /* خلفية سوداء */
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        .content {
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .gold-text {
+            color: #d4af37; /* لون ذهبي فخم */
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        #typing-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            min-height: 3em;
+        }
+
+        .final-msg {
+            font-size: 2rem;
+            color: #ff4d4d;
+            margin-top: 40px;
+            display: none; /* تظهر في النهاية */
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ورود متساقطة */
+        .rose {
+            position: absolute;
+            color: #ff0000;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <div class="gold-text">ملاك ✨</div>
+        <div id="typing-text"></div>
+        <div id="final" class="final-msg">كل عام وأنتِ بخير يا قصيرتي ❤️</div>
+    </div>
+
+    <script>
+        // النص الذي سيتم كتابته تلقائياً
+        const text = "اليوم هو يوم مميز.. \n بمناسبة عيد ميلادك السادس عشر، \n أردت أن أهنئك بطريقة مختلفة.. \n أتمنى لكِ عاماً مليئاً بالورود والجمال..";
+        let i = 0;
+        const speed = 100; // سرعة الكتابة
+
+        function typeWriter() {
+            if (i < text.length) {
+                if (text.charAt(i) === "\n") {
+                    document.getElementById("typing-text").innerHTML += "<br>";
+                } else {
+                    document.getElementById("typing-text").innerHTML += text.charAt(i);
+                }
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // إظهار العبارة الأخيرة بعد انتهاء الكتابة
+                document.getElementById("final").style.display = "block";
+            }
+        }
+
+        // إنشاء الورود المتساقطة
+        function createRose() {
+            const rose = document.createElement('div');
+            rose.classList.add('rose');
+            rose.innerHTML = '🌹';
+            rose.style.left = Math.random() * 100 + 'vw';
+            rose.style.animationDuration = Math.random() * 3 + 2 + 's';
+            rose.style.opacity = Math.random();
+            
+            // تحريك الوردة للأسفل
+            let pos = -50;
+            const id = setInterval(frame, 10);
+            function frame() {
+                if (pos > 1000) {
+                    clearInterval(id);
+                    rose.remove();
+                } else {
+                    pos += 2;
+                    rose.style.top = pos + 'px';
+                }
+            }
+            document.body.appendChild(rose);
+        }
+
+        // بدء التأثيرات
+        window.onload = () => {
+            typeWriter();
+            setInterval(createRose, 300);
+        };
+    </script>
+</body>
+</html>
